@@ -1,0 +1,14 @@
+Firewall Logs → Kafka Topic
+               ↓
+       Spark Streaming Jobs (ETL)
+               ↓
+     ┌─────────────┐       ┌─────────────┐
+     │ AWS S3 (Raw)│←────→│ AWS S3 (Cleaned)│
+     └─────────────┘       └─────────────┘
+               ↓
+         SageMaker (ML)
+               ↓
+     → If anomaly → Lambda (Trigger)
+     → Slack/Teams Notification
+               ↓
+     Power BI → S3 + Athena SQL
