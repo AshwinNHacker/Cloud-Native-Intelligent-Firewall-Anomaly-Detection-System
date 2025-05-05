@@ -1,0 +1,21 @@
+cloud-native-ai-firewall-anomaly-detection/
+├── README.md
+├── architecture/
+│   └── diagram.png
+├── kafka/
+│   ├── producer.py
+│   └── consumer.py
+├── spark/
+│   └── streaming_etl.py
+├── sagemaker/
+│   ├── train_model.ipynb
+│   └── deploy_model.ipynb
+├── lambda/
+│   ├── alert_function.py
+│   └── deployment_package.zip
+├── api_gateway/
+│   └── api_configuration.yaml
+├── power_bi/
+│   └── dashboard.pbix
+└── terraform/
+    └── main.tf
