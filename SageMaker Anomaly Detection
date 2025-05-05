@@ -1,0 +1,15 @@
+# sagemaker/train_model.ipynb
+import boto3
+import sagemaker
+from sagemaker import RandomCutForest
+
+session = sagemaker.Session()
+role = 'arn:aws:iam::your-account-id:role/SageMakerRole'
+
+rcf = RandomCutForest(role=role,
+                      instance_count=1,
+                      instance_type='ml.m4.xlarge',
+                      num_samples_per_tree=256,
+                      num_trees=50)
+
+rcf.fit('s3://your-bucket/processed_logs/train_data.csv')
