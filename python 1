@@ -1,0 +1,29 @@
+# spark/streaming_etl.py
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import from_json, col
+from pyspark.sql.types import StructType, StringType, IntegerType, DoubleType
+
+schema = StructType() \
+    .add("src_ip", StringType()) \
+    .add("dst_ip", StringType()) \
+    .add("port", IntegerType()) \
+    .add("action", StringType()) \
+    .add("timestamp", DoubleType())
+
+spark = SparkSession.builder.appName("FirewallLogProcessor").getOrCreate()
+
+df = spark.readStream.format("kafka") \
+    .option("kafka.bootstrap.servers", "localhost:9092") \
+    .option("subscribe", "firewall_logs") \
+    .load()
+
+logs = df.selectExpr("CAST(value AS STRING)") \
+    .select(from_json(col("value"), schema).alias("data")) \
+    .select("data.*")
+
+logs.writeStream \
+    .format("parquet") \
+    .option("path", "s3a://your-bucket/processed_logs/") \
+    .option("checkpointLocation", "/tmp/checkpoints/") \
+    .start() \
+    .awaitTermination()
