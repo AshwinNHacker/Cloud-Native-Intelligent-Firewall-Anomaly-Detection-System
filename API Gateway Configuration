@@ -1,0 +1,15 @@
+# api_gateway/api_configuration.yaml
+openapi: 3.0.1
+info:
+  title: Firewall Anomaly Detection API
+  version: 1.0.0
+paths:
+  /anomaly:
+    post:
+      responses:
+        '200':
+          description: Anomaly data received
+      x-amazon-apigateway-integration:
+        uri: arn:aws:apigateway:region:lambda:path/2015-03-31/functions/arn:aws:lambda:region:account-id:function:alert_function/invocations
+        httpMethod: POST
+        type: aws_proxy
