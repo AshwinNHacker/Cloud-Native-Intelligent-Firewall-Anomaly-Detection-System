@@ -1,0 +1,10 @@
+# terraform/main.tf
+provider "aws" {
+  region = "us-east-1"
+}
+
+resource "aws_s3_bucket" "processed_logs" {
+  bucket = "your-processed-logs-bucket"
+}
+
+# Additional resources: IAM roles, Lambda functions, API Gateway, etc.
