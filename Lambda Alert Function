@@ -1,0 +1,18 @@
+# lambda/alert_function.py
+import json
+import urllib3
+
+def lambda_handler(event, context):
+    webhook_url = 'https://hooks.slack.com/services/your/webhook/url'
+    message = {
+        'text': f"🚨 Anomaly detected: {json.dumps(event)}"
+    }
+    http = urllib3.PoolManager()
+    response = http.request('POST',
+                            webhook_url,
+                            body=json.dumps(message),
+                            headers={'Content-Type': 'application/json'})
+    return {
+        'statusCode': response.status,
+        'body': response.data
+    }
